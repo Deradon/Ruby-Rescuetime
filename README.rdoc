@@ -1,0 +1,18 @@
+= RubyRescuetime
+
+== Ruby port of: https://launchpad.net/rescuetime-linux-uploader
+So, it's basically an inofficial uploader for:
+https://www.rescuetime.com/
+
+<b>It's probably running only on Ubuntu machines. (Feel free to test)</b>
+
+== Installation:
+
+  gem install ruby-rescuetime
+
+== Usage:
+
+  ruby-rescuetime --help
+
+This project rocks and uses MIT-LICENSE.
+

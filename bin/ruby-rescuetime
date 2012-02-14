@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+# TODO: description
+
+require 'rescuetime/commands'
+

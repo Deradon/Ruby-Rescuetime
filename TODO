@@ -1,0 +1,7 @@
+= Login
+* Input Dialog for login-credentials
+
+= Upload & Loop
+* Store data to file-system (system-crash / no-internet -> data loss)
+* Upload in regular intervalls, not only during 'Ctrl + C'
+
