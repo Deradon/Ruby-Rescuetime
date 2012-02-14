@@ -1,4 +1,6 @@
 #!/usr/bin/env rake
+include Rake::DSL
+
 begin
   require 'bundler/setup'
 rescue LoadError
@@ -30,8 +32,9 @@ Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
   t.libs << 'test'
   t.pattern = 'test/**/*_test.rb'
-  t.verbose = false
+  t.verbose = true
 end
 
 
 task :default => :test
+

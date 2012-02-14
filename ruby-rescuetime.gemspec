@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = RubyRescuetime::VERSION
   s.authors     = ["Patrick Helm"]
   s.email       = ["deradon87@gmail.com"]
-  s.homepage    = "http://www.deckel-gesucht.de"
+  s.homepage    = "https://github.com/Deradon/Ruby-Rescuetime"
   s.summary     = "ruby port of RescueTimeLinuxUploader"
   s.description = "Upload your data to: https://www.rescuetime.com"
 
@@ -17,10 +17,12 @@ Gem::Specification.new do |s|
   s.files = Dir["{bin,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 3.1.3"
+  #s.add_dependency "rails", "~> 3.1.3"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "rspec"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "active_support"
   s.add_development_dependency "autotest-rails"
 end
 
