@@ -2,6 +2,14 @@ module Rescuetime
   class Application
     include Rescuetime::Debug
 
+    # NEW && UNTESTED
+    def self.to_yaml(apps = [])
+      yaml = "---\n"
+      [*apps].each { |app| yaml += app.to_yaml }
+
+      return yaml
+    end
+
     def self.current_application_name
       cmd = <<-CMD
         xprop -id `xprop -root |
@@ -113,31 +121,35 @@ module Rescuetime
       return out
     end
 
+    def to_yaml
+      to_upload_data
+    end
+
 
 
     private
-      def finish!
-        @active = false
-        @finished_at = Time.now
-      end
+    def finish!
+      @active = false
+      @finished_at = Time.now
+    end
 
-      def current_application_name
-        application_name(self.class.current_application_name)
-      end
+    def current_application_name
+      application_name(self.class.current_application_name)
+    end
 
-      def current_window_title
-        window_title(self.class.current_window_title)
-      end
+    def current_window_title
+      window_title(self.class.current_window_title)
+    end
 
-      # To be overwritten
-      def application_name(name)
-        name
-      end
+    # To be overwritten
+    def application_name(name)
+      name
+    end
 
-      # To be overwritten
-      def window_title(title)
-        title
-      end
+    # To be overwritten
+    def window_title(title)
+      title
+    end
   end
 end
 

@@ -20,22 +20,13 @@ module Rescuetime
     #     :debug    => false
     #   })
     def initialize(options = {})
-      @debug  = options[:debug]
+      debug! if options[:debug]
+
       @http   = Net::HTTP.new(API_HOST, 443)
       @http.use_ssl = true
 
       @email    = options[:email]
       @password = options[:password]
-    end
-
-    # Convert array of app objects to yamldata
-    def prepare_data(apps)
-      data = "---\n"
-      apps.each { |app| data += app.to_upload_data }
-      debug "[DATA TO SAVE]" do puts data end
-      # YAML::dump(apps)
-
-      return data
     end
 
     # Service available?
@@ -44,11 +35,15 @@ module Rescuetime
       resp.code == "200"
     end
 
-    # Upload yamldata
+    # =Uploads yaml-formatted data
+    # ==Usage:
+    #   @uploader.upload(:yamldata => yamldata)
+    # ==Returns:
+    #   true if upload successful, false otherwise
     def upload(options = {})
-      hash = {  :email    => @email,
-                :password => @password,
-                :yamldata => options[:yamldata] }
+      hash = { :email    => @email,
+               :password => @password,
+               :yamldata => options[:yamldata] }
 
       data = []
       hash.each do |key, value|
@@ -59,18 +54,32 @@ module Rescuetime
       debug "[YAMLDATA]" do puts data end
 
       headers = { 'User-agent' => USER_AGENT }
-      resp    = @http.post(API_UPLOAD_PATH, data, headers)
-      debug "[UPLOAD]" do p resp.body end
+
+      begin
+        resp = @http.post(API_UPLOAD_PATH, data, headers)
+      rescue
+        return false
+      end
+
+      debug "[UPLOAD]" do puts resp.body end
 
       return (resp.code == "200" && !resp.body["<error>"])
     end
 
-    # Handshake with login credentials
+    # =Handshake with login credentials
+    # ==Returns:
+    #   true if handshake successful, false otherwise
     def handshake
       data    = "email=#{@email}&password=#{@password}"
       headers = { 'User-agent' => USER_AGENT }
-      resp    = @http.post(API_HANDSHAKE_PATH, data, headers)
-      debug "[HANDSHAKE]" do p resp.body end
+
+      begin
+        resp = @http.post(API_HANDSHAKE_PATH, data, headers)
+      rescue SocketError
+        return false
+      end
+
+      debug "[HANDSHAKE]" do puts resp.body end
 
       return (resp.code == "200" && !resp.body["login failure"])
     end

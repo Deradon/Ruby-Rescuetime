@@ -22,7 +22,8 @@ module Rescuetime
         :path     => nil
       }.merge(options)
 
-      @debug        = options[:debug]
+      debug! if options[:debug]
+
       @config_path  = options[:config] || File.join(options[:path] || DEFAULT_PATH, DEFAULT_FILE)
       config        = read_config(@config_path)
 
@@ -31,6 +32,7 @@ module Rescuetime
         :password => options[:password] || config[:password],
         :path     => DEFAULT_PATH       || config[:path]
       }
+
       update if @config != config
     end
 
@@ -59,25 +61,25 @@ module Rescuetime
 
 
     private
-      def read_config(path)
-        create_config_file(path) unless File.exist?(path)
-        YAML::load(File.open(path))
-      end
+    def read_config(path)
+      create_config_file(path) unless File.exist?(path)
+      YAML::load(File.open(path))
+    end
 
-      def create_config_file(path)
-        write_config_file(DEFAULT_CONFIG, path)
-      end
+    def create_config_file(path)
+      write_config_file(DEFAULT_CONFIG, path)
+    end
 
-      def update_config(config, path)
-        write_config_file(config, path)
-      end
+    def update_config(config, path)
+      write_config_file(config, path)
+    end
 
-      def write_config_file(config, path)
-        FileUtils.mkdir_p(File.dirname(path))
-        File.open(path, 'w') do |f|
-          f.write(YAML::dump(config))
-        end
+    def write_config_file(config, path)
+      FileUtils.mkdir_p(File.dirname(path))
+      File.open(path, 'w') do |f|
+        f.write(YAML::dump(config))
       end
+    end
   end
 end
 

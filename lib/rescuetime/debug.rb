@@ -6,13 +6,17 @@ module Rescuetime
     end
 
     private
-      # Debug-Wrapper
-      def debug(msg = nil, &block)
-        return unless debug?
+    def debug!(to_debug = true)
+      @debug = to_debug
+    end
 
-        puts msg if msg
-        yield if block_given?
-      end
+    # Debug-Wrapper
+    def debug(msg = nil, &block)
+      return unless debug?
+
+      puts msg if msg
+      yield if block_given?
+    end
   end
 end
 
